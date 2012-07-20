@@ -14,4 +14,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *history;
 
+@property (weak, nonatomic) IBOutlet UILabel *variables;
+
+@property (weak, nonatomic) IBOutlet UILabel *error;
+
 @end

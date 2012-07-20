@@ -10,9 +10,16 @@
 
 @interface CalculatorBrain : NSObject
 
+@property (readonly) id program;
+
 - (void) pushOperand:(double)operand;
-- (double) performOperation:(NSString *)operation;
+- (void) pushOperation:(NSString *)operation;
 - (void) clearStack;
-- (double) negateResult;
+
++ (NSString *) descriptionOfProgram:(id)program;
++ (id) runProgram:(id)program;
++ (id) runProgram:(id)program usingVariableValues:(NSDictionary *)variableValues;
+
+- (void) deleteTopOfStack;
 
 @end
