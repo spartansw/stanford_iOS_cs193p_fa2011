@@ -7,15 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RotatableViewController.h"
 
-@interface CalculatorViewController : UIViewController
+@class CalculatorBrain;
 
-@property (weak, nonatomic) IBOutlet UILabel *display;
+@interface CalculatorViewController : RotatableViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *history;
+@property (weak, nonatomic) IBOutlet UILabel *portraitDisplay;
+@property (weak, nonatomic) IBOutlet UILabel *landscapeDisplay;
 
-@property (weak, nonatomic) IBOutlet UILabel *variables;
+@property (weak, nonatomic) IBOutlet UILabel *portraitHistory;
+@property (weak, nonatomic) IBOutlet UILabel *landscapeHistory;
 
-@property (weak, nonatomic) IBOutlet UILabel *error;
+@property (weak, nonatomic) IBOutlet UILabel *portraitError;
+@property (weak, nonatomic) IBOutlet UILabel *landscapeError;
+
+@property (nonatomic, strong) CalculatorBrain *brain;
+
+@property (nonatomic, strong) NSDictionary *testVariableValues;
+
+- (id)evaluateProgram;
 
 @end

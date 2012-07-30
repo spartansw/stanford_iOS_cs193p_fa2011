@@ -94,13 +94,11 @@
 }
 
 + (BOOL) isDivOrSub:(NSString *)op {
-    NSArray *ops = [NSArray arrayWithObjects:@"/", @"-", nil];
-    return [ops containsObject:op];
+    return [op isEqualToString:@"/"] || [op isEqualToString:@"-"];
 }
 
 + (BOOL) isMultOrAdd:(NSString *)op {
-    NSArray *ops = [NSArray arrayWithObjects:@"*", @"+", nil];
-    return [ops containsObject:op];
+    return [op isEqualToString:@"*"] || [op isEqualToString:@"+"];
 }
 
 + (BOOL) isUnaryOp:(NSString *)op {
