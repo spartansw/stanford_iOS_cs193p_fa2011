@@ -12,11 +12,6 @@
 @implementation FlickrTableViewController
 @synthesize tableValues = _tableValues;
 
-// Always redraw table cells when view is redisplayed.
-- (void) viewWillAppear:(BOOL)animated {
-    [self.tableView reloadData];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;

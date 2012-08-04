@@ -66,15 +66,21 @@
 }
 
 - (void)reloadImage {
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.image format:FlickrPhotoFormatLarge]]];
-    self.scrollView.zoomScale = 1.0;
-    self.title = [ImageViewController retrievePictureTitleFromImage:self.image];
-    self.imageViewTitle.title = [ImageViewController retrievePictureTitleFromImage:self.image];
-    
-    self.imageView.image = image;
-    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-    self.scrollView.contentSize = self.imageView.image.size;
-    [self resizeZoom];
+    dispatch_queue_t downloadImageQueue = dispatch_queue_create("download image", NULL);
+    dispatch_async(downloadImageQueue, ^{
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.image format:FlickrPhotoFormatLarge]]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.scrollView.zoomScale = 1.0;
+            self.title = [ImageViewController retrievePictureTitleFromImage:self.image];
+            self.imageViewTitle.title = [ImageViewController retrievePictureTitleFromImage:self.image];
+
+            self.imageView.image = image;
+            self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+            self.scrollView.contentSize = self.imageView.image.size;
+            [self resizeZoom];
+        });
+    });
+    dispatch_release(downloadImageQueue);
 }
 
 - (void)resizeZoom {

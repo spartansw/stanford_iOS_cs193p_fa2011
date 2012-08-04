@@ -14,8 +14,13 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    super.tableValues = [FlickrFetcher photosInPlace:self.place maxResults:50];
-    [super viewWillAppear:animated];
+    dispatch_queue_t topPlacesImagesQueue = dispatch_queue_create("download place images", NULL);
+    dispatch_async(topPlacesImagesQueue, ^{
+        super.tableValues = [FlickrFetcher photosInPlace:self.place maxResults:50];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 #pragma mark - Table view delegate

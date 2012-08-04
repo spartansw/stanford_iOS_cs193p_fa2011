@@ -14,8 +14,14 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    super.tableValues = [FlickrFetcher topPlaces];
-    [super viewWillAppear:animated];
+    dispatch_queue_t topPlacesQueue = dispatch_queue_create("download top places", NULL);
+    dispatch_async(topPlacesQueue, ^{
+        super.tableValues = [FlickrFetcher topPlaces];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
+    dispatch_release(topPlacesQueue);
 }
 
 #pragma mark - Table view data source

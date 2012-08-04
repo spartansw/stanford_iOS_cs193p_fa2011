@@ -22,8 +22,13 @@
 
 // Update list when displayed.
 - (void)viewWillAppear:(BOOL)animated {
-    super.tableValues = [self.defaults objectForKey:@"history"];
-    [super viewWillAppear:animated];
+    dispatch_queue_t recentQueue = dispatch_queue_create("fetch recent pictures", NULL);
+    dispatch_async(recentQueue, ^{
+        super.tableValues = [self.defaults objectForKey:@"history"];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 @end
