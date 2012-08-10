@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="11E2702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ake-Go-mmr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="11E2705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="ake-Go-mmr">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
@@ -45,7 +45,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Recently Viewed" id="sUw-Ye-1kn"/>
+                    <navigationItem key="navigationItem" title="Recently Viewed" id="sUw-Ye-1kn">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="OBW-je-F0P">
+                            <connections>
+                                <action selector="refresh:" destination="0MZ-9l-drG" id="1kK-ot-z4g"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="gGe-Ay-LNE">
+                            <connections>
+                                <segue destination="zQR-Dg-px2" kind="push" identifier="View Location Images Map" id="Obf-hl-f98"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="561" y="709"/>
@@ -90,7 +101,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Top Places" id="ONb-Gt-UTX"/>
+                    <navigationItem key="navigationItem" title="Top Places" id="ONb-Gt-UTX">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="Fpc-fP-V5F">
+                            <connections>
+                                <action selector="refresh:" destination="Kf5-B1-KI3" id="7y4-PM-Rxj"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="JxP-7v-p6P">
+                            <connections>
+                                <segue destination="z3J-gO-jNw" kind="push" identifier="View Top Places Map" id="o2Z-a4-qul"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="561" y="144"/>
@@ -192,12 +214,43 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="&lt;Top Places Images>" id="M7H-nN-PZG"/>
+                    <navigationItem key="navigationItem" title="&lt;Top Places Images>" id="M7H-nN-PZG">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="I37-dD-HCY">
+                            <connections>
+                                <segue destination="zQR-Dg-px2" kind="push" identifier="View Location Images Map" id="sDM-mv-RaR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="967" y="144"/>
+            <point key="canvasLocation" x="1647" y="144"/>
         </scene>
-        <!--Image View Controller - <Image View>-->
+        <!--Flickr Map View Controller - Top Places Map-->
+        <scene sceneID="h01-qK-h6i">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gdD-QB-OLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="z3J-gO-jNw" customClass="FlickrMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AYK-Ow-uun">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="jPs-uO-Ahz">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Top Places Map" id="Vks-2h-Waw"/>
+                    <connections>
+                        <outlet property="mapView" destination="jPs-uO-Ahz" id="IEu-2f-WzN"/>
+                        <segue destination="fbz-NL-B36" kind="push" identifier="View Top Places Images" id="jjo-co-DuG"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1105" y="-208"/>
+        </scene>
+        <!--Image View Controller - Loading Image...-->
         <scene sceneID="u45-he-nTh">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o9x-fg-ef8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -223,48 +276,49 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="&lt;Image View>" id="9EX-Zj-EJz"/>
+                    <navigationItem key="navigationItem" title="Loading Image..." id="9EX-Zj-EJz"/>
                     <connections>
                         <outlet property="imageView" destination="kkX-WS-tiT" id="reI-Vy-BiR"/>
                         <outlet property="scrollView" destination="tNy-A2-nhO" id="qZ5-d4-Hju"/>
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1529" y="555"/>
+            <point key="canvasLocation" x="2669" y="709"/>
+        </scene>
+        <!--Flickr Image Map View Controller-->
+        <scene sceneID="1sx-9o-Sfm">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gWH-7p-8do" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="zQR-Dg-px2" customClass="FlickrImageMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6VM-LR-vTl">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="tiI-rO-lrR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="JZH-AI-5mR"/>
+                    <connections>
+                        <outlet property="mapView" destination="tiI-rO-lrR" id="BX6-0M-WjE"/>
+                        <segue destination="n5Y-Qr-U8H" kind="push" identifier="View Image" id="qDj-YG-7kX"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1655" y="1083"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="FlickrImageTableViewController" superclassName="FlickrTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageTableViewController.h"/>
-        </class>
-        <class className="FlickrRecentsController" superclassName="FlickrImageTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrRecentsController.h"/>
-        </class>
-        <class className="FlickrTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTableViewController.h"/>
-        </class>
-        <class className="FlickrTopPlacesController" superclassName="FlickrTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTopPlacesController.h"/>
-        </class>
-        <class className="FlickrTopPlacesImagesController" superclassName="FlickrImageTableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTopPlacesImagesController.h"/>
-        </class>
-        <class className="ImageViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="imageViewTitle" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="toolbar" candidateClass="UIToolbar"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="jjo-co-DuG"/>
+        <segue reference="sDM-mv-RaR"/>
         <segue reference="Kf8-Av-kJl"/>
     </inferredMetricsTieBreakers>
 </document>

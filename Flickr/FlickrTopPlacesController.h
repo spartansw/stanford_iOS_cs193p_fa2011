@@ -11,4 +11,7 @@
 
 @interface FlickrTopPlacesController : FlickrTableViewController
 
++ (NSString *)parseTitleFromLocation:(NSDictionary *)topPlace;
++ (NSString *)parseSubtitleFromLocation:(NSDictionary *)topPlace;
+
 @end

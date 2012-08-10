@@ -8,16 +8,30 @@
 
 #import "FlickrTopPlacesImagesController.h"
 #import "FlickrFetcher.h"
+#import "FlickrMapViewController.h"
+#import "FlickrAnnotation.h"
+#import "ImageViewController.h"
+#import "FlickrTopPlacesController.h"
 
 @implementation FlickrTopPlacesImagesController
 @synthesize place = _place;
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)loadView {
+    [super loadView];
+    [self refresh:self.navigationItem.rightBarButtonItem];
+}
+
+- (void)refresh:(id)sender {
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    
     dispatch_queue_t topPlacesImagesQueue = dispatch_queue_create("download place images", NULL);
     dispatch_async(topPlacesImagesQueue, ^{
         super.tableValues = [FlickrFetcher photosInPlace:self.place maxResults:50];
+//        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.navigationItem.rightBarButtonItem = sender;
             [self.tableView reloadData];
         });
     });
@@ -28,6 +42,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *picture = [super.tableValues objectAtIndex:indexPath.row];
+    [FlickrTopPlacesImagesController markPictureAsViewedRecently:picture];
+    
+    // Handle displaying the scroll view for the selected image.
+    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"View Location Images Map"]) {
+        FlickrMapViewController *destinationViewController = (FlickrMapViewController *)segue.destinationViewController;
+        destinationViewController.title = [FlickrTopPlacesController parseTitleFromLocation:self.place];
+    }
+    [super prepareForSegue:segue sender:sender];
+}
+
++ (void)markPictureAsViewedRecently:(NSDictionary *)picture {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableArray *recentList = [[defaults objectForKey:@"history"] mutableCopy];
     if (!recentList) recentList = [[NSMutableArray alloc] init];
@@ -37,9 +66,6 @@
     [recentList insertObject:picture atIndex:0];
     if ([recentList count] > 20) [recentList removeLastObject];
     [defaults setObject:recentList forKey:@"history"];
-    
-    // Handle displaying the scroll view for the selected image.
-    [super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
 
 @end

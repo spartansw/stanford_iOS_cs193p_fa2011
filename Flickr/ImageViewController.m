@@ -8,8 +8,15 @@
 
 #import "ImageViewController.h"
 #import "FlickrFetcher.h"
+#import "ImageCache.h"
 
 #define MAX_ZOOM 2
+
+@interface ImageViewController ()
+
+@property (nonatomic, strong)ImageCache *cache;
+
+@end
 
 @implementation ImageViewController
 @synthesize toolbar = _toolbar;
@@ -19,6 +26,13 @@
 @synthesize scrollView = _scrollView;
 @synthesize imageView = _imageView;
 @synthesize image = _image;
+
+@synthesize cache = _cache;
+
+- (ImageCache *)cache {
+    if (!_cache) _cache = [[ImageCache alloc] init];
+    return _cache;
+}
 
 // First view assumed to be image for scroll view to zoom.
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -66,10 +80,21 @@
 }
 
 - (void)reloadImage {
+    // Display loading spinner indicator.
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [spinner startAnimating];
+    spinner.center = self.view.center;
+    [self.view addSubview:spinner];
+    
     dispatch_queue_t downloadImageQueue = dispatch_queue_create("download image", NULL);
     dispatch_async(downloadImageQueue, ^{
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[FlickrFetcher urlForPhoto:self.image format:FlickrPhotoFormatLarge]]];
+//        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+        UIImage *image = [self.cache getImageForKey:self.image];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner removeFromSuperview];
+            self.scrollView.minimumZoomScale = 1.0;
+            self.scrollView.maximumZoomScale = 1.0;
             self.scrollView.zoomScale = 1.0;
             self.title = [ImageViewController retrievePictureTitleFromImage:self.image];
             self.imageViewTitle.title = [ImageViewController retrievePictureTitleFromImage:self.image];

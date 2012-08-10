@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) NSDictionary *place;
 
++ (void)markPictureAsViewedRecently:(NSDictionary *)picture;
+
 @end

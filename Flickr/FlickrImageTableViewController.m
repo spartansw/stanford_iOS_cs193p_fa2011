@@ -10,6 +10,8 @@
 #import "FlickrImageTableViewController.h"
 #import "ImageViewController.h"
 #import "FlickrFetcher.h"
+#import "FlickrImageMapViewController.h"
+#import "FlickrAnnotation.h"
 
 @implementation FlickrImageTableViewController
 
@@ -44,7 +46,18 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"View Image"]) {
+    if ([segue.identifier isEqualToString:@"View Location Images Map"]) {
+        FlickrImageMapViewController *destinationViewController = (FlickrImageMapViewController *)segue.destinationViewController;
+        NSMutableArray *annotations = [[NSMutableArray alloc] init];
+        for (NSDictionary *topPlace in super.tableValues) {
+            CLLocationDegrees latitude = [[topPlace objectForKey:@"latitude"] doubleValue];
+            CLLocationDegrees longitude = [[topPlace objectForKey:@"longitude"] doubleValue];
+            FlickrAnnotation *point = [[FlickrAnnotation alloc] initWithCoordinate:CLLocationCoordinate2DMake(latitude, longitude) withTitle:[ImageViewController retrievePictureTitleFromImage:topPlace] withSubtitle:[topPlace valueForKeyPath:@"description._content"]];
+            point.image = topPlace;
+            [annotations addObject:point];
+        }
+        destinationViewController.annotations = annotations;
+    } else if ([segue.identifier isEqualToString:@"View Image"]) {
         ImageViewController *imageViewController = (ImageViewController *)segue.destinationViewController;
         NSDictionary *image = [super.tableValues objectAtIndex:self.tableView.indexPathForSelectedRow.row];
         imageViewController.image = image;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="11E2702" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="7HP-cD-Xl9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="11E2705" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="7HP-cD-Xl9">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
@@ -42,7 +42,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Recently Viewed Pictures" id="UQ7-7e-SET"/>
+                    <navigationItem key="navigationItem" title="Recently Viewed Pictures" id="UQ7-7e-SET">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="rdg-bg-vdk">
+                            <connections>
+                                <action selector="refresh:" destination="Utr-es-6P7" id="y7N-N6-F3X"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="dE3-7E-bjL">
+                            <connections>
+                                <segue destination="Lyj-Ez-cby" kind="push" identifier="View Location Images Map" id="VZO-Le-eQo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </viewController>
             </objects>
@@ -134,7 +145,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Top Places" id="6hS-3V-QmN"/>
+                    <navigationItem key="navigationItem" title="Top Places" id="6hS-3V-QmN">
+                        <barButtonItem key="leftBarButtonItem" title="Refresh" id="Ezv-SU-2cP">
+                            <connections>
+                                <action selector="refresh:" destination="yZD-9h-OBn" id="I5V-1G-Uz5"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="SDZ-W3-5cp">
+                            <connections>
+                                <segue destination="ySL-8E-u8U" kind="push" identifier="View Top Places Map" id="hfu-uM-Bg8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </viewController>
             </objects>
@@ -246,25 +268,97 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Top Places Images" id="prT-nE-ee1"/>
+                    <navigationItem key="navigationItem" title="Top Places Images" id="prT-nE-ee1">
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="7yr-Je-aue">
+                            <connections>
+                                <segue destination="Lyj-Ez-cby" kind="push" identifier="View Location Images Map" id="ex2-WP-ihe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1385" y="-1767"/>
+            <point key="canvasLocation" x="2041" y="-1767"/>
+        </scene>
+        <!--Flickr Map View Controller - Top Places Map-->
+        <scene sceneID="AS6-ml-eAL">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ws8-Pc-wL9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="ySL-8E-u8U" customClass="FlickrMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mln-zs-9QQ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="N5N-HN-2sY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="739"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Top Places Map" id="UVx-cX-A11"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="mapView" destination="N5N-HN-2sY" id="YO1-3N-sFe"/>
+                        <segue destination="qyX-iq-tKO" kind="push" identifier="View Top Places Images" id="oeY-Vd-vw1"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1505" y="-2348"/>
+        </scene>
+        <!--Flickr Image Map View Controller-->
+        <scene sceneID="4wi-O8-2uG">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rxc-Ao-hDf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Lyj-Ez-cby" customClass="FlickrImageMapViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yu3-ub-ucy">
+                        <rect key="frame" x="0.0" y="64" width="320" height="739"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="c5a-HO-vd8">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="739"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dJG-RR-6z6"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <connections>
+                        <outlet property="mapView" destination="c5a-HO-vd8" id="Or7-mY-sVz"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2569" y="-795"/>
         </scene>
     </scenes>
     <classes>
+        <class className="FlickrImageMapViewController" superclassName="FlickrMapViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageMapViewController.h"/>
+        </class>
         <class className="FlickrImageTableViewController" superclassName="FlickrTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrImageTableViewController.h"/>
         </class>
+        <class className="FlickrMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
         <class className="FlickrRecentsController" superclassName="FlickrImageTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrRecentsController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+            </relationships>
         </class>
         <class className="FlickrTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTableViewController.h"/>
         </class>
         <class className="FlickrTopPlacesController" superclassName="FlickrTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTopPlacesController.h"/>
+            <relationships>
+                <relationship kind="action" name="refresh:"/>
+            </relationships>
         </class>
         <class className="FlickrTopPlacesImagesController" superclassName="FlickrImageTableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FlickrTopPlacesImagesController.h"/>
@@ -284,4 +378,8 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="VZO-Le-eQo"/>
+        <segue reference="oeY-Vd-vw1"/>
+    </inferredMetricsTieBreakers>
 </document>
