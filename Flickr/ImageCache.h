@@ -11,5 +11,6 @@
 @interface ImageCache : NSObject
 
 - (UIImage *)getImageForKey:(NSDictionary *)image;
++ (UIImage *)getImageForURL:(NSString *)url;
 
 @end

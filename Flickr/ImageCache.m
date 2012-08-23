@@ -46,6 +46,10 @@ static NSString *APPLICATION_CACHE_DIRECTORY = @"/flickr";
     return _fileManager;
 }
 
++ (UIImage *)getImageForURL:(NSString *)url {
+    return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]];
+}
+
 // This method should only be called asynchronously.
 - (UIImage *)getImageForKey:(NSDictionary *)imageKey {
     // Use unique image id supplied by Flickr as file name for image.

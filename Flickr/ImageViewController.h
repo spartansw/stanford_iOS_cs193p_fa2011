@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 @interface ImageViewController : UIViewController <UIScrollViewDelegate, UISplitViewControllerDelegate>
 
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) NSDictionary *image;
 
 + (NSString *)retrievePictureTitleFromImage:(NSDictionary *)property;
--(void)reloadImage;
+- (void)reloadImage;
+- (void)reloadImageUsing:(UIImage * (^)(NSDictionary *flickrImage))imageLoader;
 
 @end

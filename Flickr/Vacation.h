@@ -1,0 +1,27 @@
+//
+//  Vacation.h
+//  Flickr
+//
+//  Created by Kevin Lew on 8/20/12.
+//  Copyright (c) 2012 Spartan Software, Inc. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+@class Photo;
+
+@interface Vacation : NSManagedObject
+
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSSet *photos;
+@end
+
+@interface Vacation (CoreDataGeneratedAccessors)
+
+- (void)addPhotosObject:(Photo *)value;
+- (void)removePhotosObject:(Photo *)value;
+- (void)addPhotos:(NSSet *)values;
+- (void)removePhotos:(NSSet *)values;
+
+@end

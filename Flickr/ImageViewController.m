@@ -9,6 +9,8 @@
 #import "ImageViewController.h"
 #import "FlickrFetcher.h"
 #import "ImageCache.h"
+#import "ManagedDocument.h"
+#import "Photo+Flickr.h"
 
 #define MAX_ZOOM 2
 
@@ -79,7 +81,7 @@
     [self resizeZoom];
 }
 
-- (void)reloadImage {
+- (void)reloadImageUsing:(UIImage * (^)(NSDictionary *flickrImage))imageLoader {
     // Display loading spinner indicator.
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [spinner startAnimating];
@@ -89,7 +91,7 @@
     dispatch_queue_t downloadImageQueue = dispatch_queue_create("download image", NULL);
     dispatch_async(downloadImageQueue, ^{
 //        [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:2]];
-        UIImage *image = [self.cache getImageForKey:self.image];
+        UIImage *image = imageLoader(self.image);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [spinner removeFromSuperview];
@@ -123,8 +125,14 @@
     return [title isEqualToString:@""] ? @"Unknown" : title;
 }
 
+- (void)reloadImage {
+    if (self.image) [self reloadImageUsing:^(NSDictionary *flickrImage) {
+        return [self.cache getImageForKey:self.image];
+    }];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
-    if (self.image) [self reloadImage];
+    [self reloadImage];
 }
 
 - (void)viewDidUnload {
@@ -134,4 +142,5 @@
     [self setImageView:nil];
     [super viewDidUnload];
 }
+
 @end

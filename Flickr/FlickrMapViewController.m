@@ -22,10 +22,8 @@
 @synthesize mapView = _mapView;
 @synthesize annotations = _annotations;
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-    
     self.mapView.delegate = self;
     [self.mapView addAnnotations:self.annotations];
     
@@ -44,12 +42,7 @@
     MKCoordinateSpan initialMapSpan;
     CLLocationDegrees latitudeDelta = maxLatitude-minLatitude;
     CLLocationDegrees longitudeDelta = maxLongitude-minLongitude;
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        // Not sure why the delta is multiplied by 2.
-        initialMapSpan = MKCoordinateSpanMake(latitudeDelta*2*ANNOTATION_PADDING, longitudeDelta*2*ANNOTATION_PADDING);
-    } else {
-        initialMapSpan = MKCoordinateSpanMake(latitudeDelta*ANNOTATION_PADDING, longitudeDelta*ANNOTATION_PADDING);
-    }
+    initialMapSpan = MKCoordinateSpanMake(latitudeDelta*ANNOTATION_PADDING, longitudeDelta*ANNOTATION_PADDING);
     initialMapSpan.latitudeDelta = (initialMapSpan.latitudeDelta > MAX_LATITUDE_SPAN) ? MAX_LATITUDE_SPAN : initialMapSpan.latitudeDelta;
     initialMapSpan.longitudeDelta = (initialMapSpan.longitudeDelta > MAX_LONGITUDE_SPAN) ? MAX_LONGITUDE_SPAN : initialMapSpan.longitudeDelta;
     
